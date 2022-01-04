@@ -1,5 +1,5 @@
 # Seqr BCH Instance
-This repo contains the configuration, notes and files to get [Seqr](https://github.com/broadinstitute/seqr) running on the BCH network, which uses EC2 instances.
+This repo contains the configuration, notes and files to get [Seqr](https://github.com/broadinstitute/seqr) running on the BCH network (including HPC), which also uses EC2 instances. This also contains details on how to get [S3 and IGV to work](https://github.com/leklab/seqr_bch_instance/tree/main/s3_support) based on prior work by [Nick C.](https://github.com/nicklecompteBCH/seqr-bch-installation)
 
 
 ## Setting up VEP and Perl
