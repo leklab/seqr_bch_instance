@@ -6,9 +6,14 @@ This repo contains the configuration, notes and files to get [Seqr](https://gith
 Setting up Perl and required libraries is very annoying and doesn't work easily in a conda environment. In addition, the BCH E2 cluster and MGH PCC cluster nodes are not
 running the same subset of libraries. The best work around at the moment is to install required Perl libraries in home directory and set as a PATH. The installation of Perl libraries does not work out of box in either clusters as things are missing. The working solution is to copy over the files needed.
 ```
-# Copy over the following file:
+# Copy over the following files into ~/perl5
+tar xvf perl_libraries.tar.gz
 
-and install in user home directory and set PATH.
+# set PATH, for example
+export PERL5LIB=$PERL5LIB:/scratch/ch227850/perl5:/scratch/ch227850/perl5/lib:/scratch/ch227850/perl5/lib/perl5/x86_64-linux-thread-multi:/scratch/ch227850/perl5/lib/perl5
+
+# VEP (version 99) is current installed (for mghpcc)
+/scratch/ch227850/Monkol/vep
 
 ```
 
@@ -68,20 +73,3 @@ python seqr_loading.py SeqrVCFToMTTask --local-scheduler \
 python es_upload.py
 
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
