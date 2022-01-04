@@ -10,16 +10,7 @@ running the same subset of libraries. The best work around at the moment is to i
 tar xvf perl_libraries.tar.gz
 
 # set PATH, for example
-export PERL5LIB=$PERL5LIB:/scratch/ch227850/perl5:/scratch/ch227850/perl5/lib:/scratch/ch227850/perl5/lib/perl5/x86_64-linux-thread-multi:/scratch/ch227850/perl5/lib/perl5
-
-# VEP (version 99) is current installed (for mghpcc)
-/scratch/ch227850/Monkol/vep
-
-```
-
-```
-# Variant Effect Predictor is currently installed in the following path on mghpcc: 
-# json configuration file used by hail/vep: /scratch/ch227850/Monkol/resources/vep-GRCh37.json
+export PERL5LIB=$PERL5LIB:~perl5:~/perl5/lib:~/perl5/lib/perl5/x86_64-linux-thread-multi:~/perl5/lib/perl5
 
 ```
 
@@ -57,17 +48,17 @@ python subset_callset.py
 
 # Annotate vcf file and export to Hail matrix table, for example
 python seqr_loading.py SeqrVCFToMTTask --local-scheduler \
---source-paths /scratch/ch227850/Monkol/crdc_joint_called.vcf.gz \
---mt-path /scratch/ch227850/Monkol/hirschhorn_dsd.mt \
+--source-paths source.vcf.gz \
+--mt-path input.mt \
 --genome-version 37 \
 --sample-type WES \
 --dont-validate \
---spark-master spark://compute-m7c1-0-4.localdomain:7077 \
---dest-path /scratch/ch227850/Monkol/seqr_hirschhorn_dsd.mt \
---reference-ht-path /scratch/ch227850/Monkol/resources/combined_reference_data_grch37.ht \
---clinvar-ht-path /scratch/ch227850/Monkol/resources/clinvar.GRCh37.ht \
---grch38-to-grch37-ref-chain /scratch/ch227850/Monkol/resources/grch38_to_grch37.over.chain.gz \
---vep-config-json-path /scratch/ch227850/Monkol/resources/vep-GRCh37.json
+--spark-master spark://node:7077 \
+--dest-path output.mt \
+--reference-ht-path combined_reference_data_grch37.ht \
+--clinvar-ht-path clinvar.GRCh37.ht \
+--grch38-to-grch37-ref-chain grch38_to_grch37.over.chain.gz \
+--vep-config-json-path vep-GRCh37.json
 
 # Upload data to Elastic Search server
 python es_upload.py
