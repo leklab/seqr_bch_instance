@@ -1,7 +1,7 @@
 import hail as hl
 import math
 from hail_scripts.elasticsearch.hail_elasticsearch_client import HailElasticsearchClient
-
+import argparse
 
 def export_table_to_elasticsearch(es, table, num_shards, index_name):
 
@@ -47,14 +47,29 @@ def mt_num_shards(mt):
     return calculated_num_shards
 
 
+def upload_es_data(args):
+
+    es = HailElasticsearchClient(host=args.host)
+
+    mt = hl.read_matrix_table(args.mt)
+    row_table = elasticsearch_row(mt)
+    es_shards = mt_num_shards(mt)
+
+    export_table_to_elasticsearch(es, row_table, es_shards, args.index)
+
+if __name__ == '__main__':
+
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument('--host', '-h', help='Elasticsearch Host', required=True)
+    parser.add_argument('--mt', '-m', help='Hail Matrix table', required=True)
+    parser.add_argument('--index', '-i', help='Elasticsearch index name', required=True)
+
+    args = parser.parse_args()
+
+    upload_es_data(args)
 
 
-es = HailElasticsearchClient(host='172.31.45.128')
 
-mt = hl.read_matrix_table('/data/seqr_beggs.mt')
-row_table = elasticsearch_row(mt)
-es_shards = mt_num_shards(mt)
-
-export_table_to_elasticsearch(es, row_table, es_shards, 'beggs_test_20211103')
 
 

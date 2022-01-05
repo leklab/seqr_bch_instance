@@ -10,7 +10,7 @@ running the same subset of libraries. The best work around at the moment is to i
 tar xvf perl_libraries.tar.gz
 
 # set PATH, for example
-export PERL5LIB=$PERL5LIB:~perl5:~/perl5/lib:~/perl5/lib/perl5/x86_64-linux-thread-multi:~/perl5/lib/perl5
+export PERL5LIB=$PERL5LIB:~/perl5:~/perl5/lib:~/perl5/lib/perl5/x86_64-linux-thread-multi:~/perl5/lib/perl5
 
 ```
 

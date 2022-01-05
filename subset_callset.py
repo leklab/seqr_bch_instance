@@ -67,25 +67,39 @@ def remap_sample_ids(mt, remap_path):
     return mt
 
 
-hl.init(master='spark://compute-m7c1-0-4.localdomain:7077')
-mt = hl.read_matrix_table('/scratch/ch227850/Monkol/crdc_joint_called.mt')
-#pprint.pprint(mt.count())
+def subset_callset(args):
 
-#mt = remap_sample_ids(mt, '/scratch/ch227850/Monkol/seqr_cohorts/beggs/beggs_sample_remap.tsv')
-#mt = subset_samples_and_variants(mt,'/scratch/ch227850/Monkol/seqr_cohorts/beggs/vcf_beggs_subset_FINAL.txt')
+    hl.init(master=args.spark)
+    mt = hl.read_matrix_table(args.input)
 
-#mt = remap_sample_ids(mt, '/scratch/ch227850/Monkol/seqr_cohorts/manton/mantongdc_sample_remap.tsv')
-#mt = subset_samples_and_variants(mt,'/scratch/ch227850/Monkol/seqr_cohorts/manton/mantongdc_subset.txt')
+    if args.remap:
+        mt = remap_sample_ids(mt, args.remap)
+    
+    if args.subset:
+        mt = subset_samples_and_variants(mt, args.subset)
 
-mt = remap_sample_ids(mt, '/scratch/ch227850/Monkol/seqr_cohorts/dsd/hirschhorn_dsd_sample_remap.tsv')
-mt = subset_samples_and_variants(mt,'/scratch/ch227850/Monkol/seqr_cohorts/dsd/hirschhorn_dsd_subset.tsv')
+    mt.write(args.out)
 
-#pprint.pprint(mt.count())
 
-#mt.write('/scratch/ch227850/Monkol/beggs.mt')
-#mt.write('/scratch/ch227850/Monkol/mantongdc.mt')
 
-mt.write('/scratch/ch227850/Monkol/hirschhorn_dsd.mt')
+if __name__ == '__main__':
+
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument('--spark', help='Spark master', required=True)
+    parser.add_argument('--input', '-i', help='Joint called Hail matrix table', required=True)
+
+    parser.add_argument('--remap', help='Remap sample IDs')
+    parser.add_argument('--subset', help='Samples to subset')
+    parser.add_argument('--out', '-o', help='Subsetted Hail matrix table', required=True)
+
+    args = parser.parse_args()
+
+    subset_callset(args)
+
+
+
+
 
 
 
